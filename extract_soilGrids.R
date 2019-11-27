@@ -20,7 +20,7 @@ suppressWarnings(suppressMessages(suppressPackageStartupMessages({
 theme_set(ggthemes::theme_few(base_size = 10))
 
 # Set working directory
-setwd("~/Google Drive/Work/PhD_York/site_data/soilGrids")
+setwd("~/Google Drive/Work/PhD_York/site_data/soilGrids/extract_soilGrids_data/")
 
 -----
   #'## Data import and preparation
