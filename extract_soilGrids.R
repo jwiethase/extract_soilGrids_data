@@ -23,9 +23,9 @@ theme_set(ggthemes::theme_few(base_size = 10))
 setwd("~/Google Drive/Work/PhD_York/site_data/soilGrids/extract_soilGrids_data/")
 
 -----
-  #'## Data import and preparation
-  #' Import soil files, downloaded from https://soilgrids.org/ for 15cm depth
-  soil_sand <- raster("soil_files/SNDPPT_M_sl3_250m.tif")
+#'## Data import and preparation
+#' Import soil files, downloaded from https://soilgrids.org/ for 15cm depth
+soil_sand <- raster("soil_files/SNDPPT_M_sl3_250m.tif")
 soil_silt <- raster("soil_files/SLTPPT_M_sl3_250m.tif")
 soil_clay <- raster("soil_files/CLYPPT_M_sl3_250m.tif")
 soil_cec <- raster("soil_files/CECSOL_M_sl3_250m.tif")
@@ -35,13 +35,14 @@ soil_phi <- raster("soil_files/PHIHOX_M_sl3_250m.tif")
 
 
 -----
-  #'## Data extraction
-  #' Create grid to extract data from raster
-  # Use metric CRS to space out grid equal to soil data resolution (250m)
-  grd <- expand.grid(x = seq(from = 174051.0119120605, to = 190934.03918574506,
+#'## Data extraction
+#' Create grid to extract data from raster
+# Use metric CRS to space out grid equal to soil data resolution (250m). Use extent of pre-defined,
+# chosen polygon
+grd <- expand.grid(x = seq(from = 172052.5794289853656664, to = 192020.0272475373349153,
                              by = 250),
-                     y = seq(from = 9573280.16200135, 
-                             to = 9592489.63512421, 
+                     y = seq(from = 9574300.2855877578258514, 
+                             to = 9594281.8629634641110897, 
                              by = 250))
 sp::coordinates(grd) <- ~x + y
 sp::gridded(grd) <- TRUE
@@ -102,7 +103,7 @@ ggplot() +
   xlab("Weight percentage of the clay particles at 15cm depth (%)") 
 
 -----
-  #'## Summarize the soil values
-  soil_average <- extr_df %>% 
+#'## Summarize the soil values
+soil_average <- extr_df %>% 
   dplyr::summarise_all(list(av = mean)) %>% 
   mutate_if(is.numeric, ~round(., 3))
