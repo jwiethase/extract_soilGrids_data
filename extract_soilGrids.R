@@ -109,3 +109,7 @@ soil_average <- extr_df %>%
   dplyr::summarise_all(list(av = median)) %>% 
   mutate_if(is.numeric, ~round(., 3))
 print(soil_average)
+
+solomon_cult3 <- GSIF::AWCPTF(SNDPPT=60.6, SLTPPT=13.6, CLYPPT=25.7, 
+             ORCDRC=8.3, BLD=1.33*1000, CEC=14.1, PHIHOX=7, h1=-10, h2=-20, h3=-31.6)
+solomon_cult3$field_capacity = solomon_cult3$AWCh1 + solomon_cult3$WWP
