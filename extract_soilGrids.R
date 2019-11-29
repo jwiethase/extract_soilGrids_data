@@ -81,7 +81,7 @@ extr_df <- cbind(extr_df, GSIF::AWCPTF(extr_df$sand, extr_df$silt,
   #' Plot density of soil properties for the chosen area
 ggplot() +
   geom_density(data = extr_df, aes(field_capacity)) +
-  geom_vline(xintercept = mean(extr_df$field_capacity), 
+  geom_vline(xintercept = median(extr_df$field_capacity), 
              col = "red", alpha = .5, lty = 2) +
   xlab("Field capacity (%)") 
 
@@ -106,6 +106,6 @@ ggplot() +
 -----
 #'## Summarize the soil values
 soil_average <- extr_df %>% 
-  dplyr::summarise_all(list(av = mean)) %>% 
+  dplyr::summarise_all(list(av = median)) %>% 
   mutate_if(is.numeric, ~round(., 3))
 print(soil_average)
