@@ -70,7 +70,8 @@ extr_df$bldf <- ifelse(is.na(extr_df$bld),
 #' Calculate water holding capacity
 extr_df <- cbind(extr_df, GSIF::AWCPTF(extr_df$sand, extr_df$silt,
                                        extr_df$clay, extr_df$orc, BLD=extr_df$bldf*1000, extr_df$cec,
-                                       extr_df$phi, h1=-10, h2=-20, h3=-31.6))
+                                       extr_df$phi, h1=-10, h2=-20, h3=-31.6)) %>% 
+  mutate(field_capacity = AWCh1 + WWP)
 
 # Save the created data frame
 # write.csv(extr_df, "extracted_soil.csv")
@@ -78,11 +79,11 @@ extr_df <- cbind(extr_df, GSIF::AWCPTF(extr_df$sand, extr_df$silt,
 -----
   #'## Visually explore the data
   #' Plot density of soil properties for the chosen area
-  ggplot() +
-  geom_density(data = extr_df, aes(WWP)) +
-  geom_vline(xintercept = mean(extr_df$WWP), 
+ggplot() +
+  geom_density(data = extr_df, aes(field_capacity)) +
+  geom_vline(xintercept = mean(extr_df$field_capacity), 
              col = "red", alpha = .5, lty = 2) +
-  xlab("Available soil water capacity (volumetric fraction) until wilting point (%)") 
+  xlab("Field capacity (%)") 
 
 ggplot() +
   geom_density(data = extr_df, aes(sand)) +
@@ -92,13 +93,13 @@ ggplot() +
 
 ggplot() +
   geom_density(data = extr_df, aes(silt)) +
-  geom_vline(xintercept = mean(extr_df$silt), 
+  geom_vline(xintercept = median(extr_df$silt), 
              col = "red", alpha = .5, lty = 2) +
   xlab("Weight percentage of the silt particles at 15cm depth (%)") 
 
 ggplot() +
   geom_density(data = extr_df, aes(clay)) +
-  geom_vline(xintercept = mean(extr_df$clay), 
+  geom_vline(xintercept = median(extr_df$clay), 
              col = "red", alpha = .5, lty = 2) +
   xlab("Weight percentage of the clay particles at 15cm depth (%)") 
 
@@ -107,3 +108,4 @@ ggplot() +
 soil_average <- extr_df %>% 
   dplyr::summarise_all(list(av = mean)) %>% 
   mutate_if(is.numeric, ~round(., 3))
+print(soil_average)
